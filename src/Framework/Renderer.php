@@ -1,7 +1,8 @@
 <?php
 namespace Framework;
 
-class Renderer {
+class Renderer
+{
 
 
     const DEFAULT_NAMESPACE = '__MAIN';
@@ -22,15 +23,16 @@ class Renderer {
      *
      * @return void
      */
-    public function addPath(string $namespace, ?string $path= null):void {
-        if(is_null($path)){
+    public function addPath(string $namespace, ?string $path = null):void
+    {
+        if (is_null($path)) {
             $this->paths[self::DEFAULT_NAMESPACE] = $namespace;
-        }else{
+        } else {
             $this->paths[$namespace] = $path;
         }
     }
 
-    //   
+    //
     /**
      * render Rendre des vues
      * Le chemin peut être precisé avec des namespace rajouté avec addPath()
@@ -43,9 +45,9 @@ class Renderer {
      */
     public function render(string $view, array $params = []): string
     {
-        if( $this->hasNamespace($view)){
+        if ($this->hasNamespace($view)) {
             $path = $this->replaceNamespace($view) . '.php';
-        }else{
+        } else {
             $path = $this->paths[self::DEFAULT_NAMESPACE] . DIRECTORY_SEPARATOR . $view .'.php';
         }
         ob_start();
@@ -65,7 +67,8 @@ class Renderer {
      *
      * @return void
      */
-    public function addGlobal(string $key, $value):void {
+    public function addGlobal(string $key, $value):void
+    {
         $this->globals[$key] = $value;
     }
 
@@ -76,7 +79,7 @@ class Renderer {
 
     private function getNamespace(string $view):string
     {
-        return substr($view, 1, strpos($view,'/') - 1);
+        return substr($view, 1, strpos($view, '/') - 1);
     }
 
     private function replaceNamespace(string $view):string
@@ -84,8 +87,4 @@ class Renderer {
         $namespace = $this->getNamespace($view);
         return str_replace('@'. $namespace, $this->paths[$namespace], $view);
     }
-
-
-    
-
-} 
+}

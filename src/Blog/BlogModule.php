@@ -27,7 +27,8 @@ class BlogModule
 
     public function show(Request $request): string
     {
-        return $this->renderer->render('@blog/show', 
+        return $this->renderer->render(
+            '@blog/show',
             ['slug' => $request->getAttribute('slug')
             ]
         );
