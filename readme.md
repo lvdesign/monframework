@@ -45,9 +45,12 @@ php composer.phar require --dev phpunit/phpunit // 7.5
 ### les deux en meme temps phpcs et php unit
  ./vendor/bin/phpcs; ./vendor/bin/phpunit
 
- ./vendor/bin/phpunit tests/Framework/RendererTest.php
-
+ ./vendor/bin/phpunit tests/Framework/RendererTest.php --colors
+ ./vendor/bin/phpunit tests/Framework/Renderer/PHPRendererTest.php --colors
  
+ ### TWIGG
+
+php composer.phar require twig/twig
 
 ### GIT - pour retourner a precedente version
 git status
