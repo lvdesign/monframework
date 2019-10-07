@@ -16,7 +16,6 @@ class RouterTest extends TestCase{
     public function setUp():void
     { 
         $this->router = new Router();
-
     }
 
     public function testGetMethod()

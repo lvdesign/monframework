@@ -65,7 +65,7 @@ class AppTest extends TestCase{
         $this->assertEquals('DEMO', (string)$response->getbody());
     }
 
-    //
+    // Test Error
     public function testError404(){
         $app = new App();
 

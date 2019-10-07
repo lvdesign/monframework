@@ -45,6 +45,10 @@ php composer.phar require --dev phpunit/phpunit // 7.5
 ### les deux en meme temps phpcs et php unit
  ./vendor/bin/phpcs; ./vendor/bin/phpunit
 
+ ./vendor/bin/phpunit tests/Framework/RendererTest.php
+
+ 
+
 ### GIT - pour retourner a precedente version
 git status
 git reset --hard HEAD
