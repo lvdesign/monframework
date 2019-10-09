@@ -3,19 +3,28 @@ require '../vendor/autoload.php';
 
 use GuzzleHttp\Psr7\ServerRequest;
 
-//PHP code : $renderer = new \Framework\Renderer\PHPRenderer(dirname(__DIR__) . '/views');
-//$renderer->addPath(dirname(__DIR__) . '/views');
-
-//$twig = new Twig_Environment($loader, []);
-$renderer = new \Framework\Renderer\TwigRenderer(dirname(__DIR__) . '/views');
-// fichier source -> Request Response
-$app = new \Framework\App(
-    [
+$modules =  [
     \App\Blog\BlogModule::class
-    ],
-    [ 'renderer' => $renderer
-    ]
-);
+];
+
+
+// injec Dependences
+$builder = new DI\ContainerBuilder();
+$builder->addDefinitions(dirname(__DIR__) .'/config/config.php');
+
+
+foreach ($modules as $module) {
+    if ($module::DEFINITIONS) {
+        $builder->addDefinitions($module::DEFINITIONS);
+    }
+}
+$builder->addDefinitions(dirname(__DIR__) .'/config.php');
+
+$container = $builder->build();
+// Permet de overwrite le module
+
+
+$app = new \Framework\App($container, $modules);
 
 $response = $app->run(ServerRequest::fromGlobals());
 
