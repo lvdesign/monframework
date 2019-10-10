@@ -5,7 +5,9 @@ use Framework\Router;
 
 class RouterTwigExtension extends \Twig\Extension\AbstractExtension
 {
-
+    /**
+     * @var Router
+     */
     private $router;
 
 
@@ -15,10 +17,12 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
     }
 
 // \Twig_SimpleFunction
+// [$this, 'pathFor']
+    
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('path', [$this, 'pathFor'])
+            new \Twig\TwigFunction('path', 'pathFor'),
         ];
     }
 

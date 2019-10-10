@@ -5,20 +5,25 @@ use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRendererFactory;
 use Framework\Router\RouterTwigExtension;
 
-
-//use function \DI\{autowire,get,factory};
+// config generale
+use function \DI\{autowire,get,factory};
 
 // use function DI\create as object;
 // http://php-di.org/doc/migration/6.0.html#diobject
 // DI\autowire()  ou create
 
-return [    
+return [
+    
+    'database.host' => 'localhost:8889',
+    'database.username' => 'root',
+    'database.password' => 'root',
+    'database.name' => 'monsupersite',
 
     'views.path' => dirname(__DIR__) . '/views',
     'twig.extensions' => [
-        \DI\get(RouterTwigExtension::class)
+        get(RouterTwigExtension::class)
     ],
-    Router::class => \DI\autowire(),
-    RendererInterface::class => \DI\factory( TwigRendererFactory::class)
+    Router::class => autowire(),
+    RendererInterface::class => factory(TwigRendererFactory::class)
     
 ];

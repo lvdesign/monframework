@@ -2,5 +2,5 @@
 
 // config specifique pour ecraser autre config
 return [    
-  /*  'blog.prefix' => '/news', */
+   'blog.prefix' => '/blog',
 ];

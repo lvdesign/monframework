@@ -75,4 +75,15 @@ class App
             throw new \Exception('The response not a string-TOTO');
         }
     }
+
+
+    /**
+     * getContainer
+     *
+     * @return ContainerInterface
+     */
+    public function getContainer(): ContainerInterface
+    {
+        return $this->container;
+    }
 }

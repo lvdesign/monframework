@@ -84,6 +84,32 @@ php composer.phar require zendframework/zend-expressive-fastroute
 php composer.phar require php-di/php-di
 
 
+### Installation de Phinx (pour migration BD)
+- https://phinx.org/
+
+php composer.phar require robmorgan/phinx --dev
+
+- migration
+vendor/bin/phinx migrate -e development
+
+- create Table
+vendor/bin/phinx create CreatePostsTable
+
+- migrate Table
+vendor/bin/phinx migrate
+
+- SEEDS [command](https://book.cakephp.org/3.0/en/phinx/commands.html)
+
+vendor/bin/phinx seed:create PostSeeder
+
+vendor/bin/phinx seed:run          (// -e development
+
+- faker (https://packagist.org/packages/fzaninotto/faker)
+
+php composer.phar require --dev fzaninotto/faker
+
+
+
 # Etapes
 
 - Structure du projet
@@ -104,3 +130,6 @@ Afin d'améliorer encore notre système de "vue" nous allons utiliser le moteur 
 
 - Injections de dependances
 Comme nous l'avons vu lors de la mise en place de Twig, certaines classes ont des dépendances qu'il faut satisfaire et on se retrouve à passer nos instances de classe en classe. Afin de nous simplifier la tâche nous allons utiliser un système de container.
+
+- Les migrations
+Pour gérer notre système de blog, il va nous falloir sauvegarder les articles dans une base de données. On utilisera pour cela une base de données MySQL qu'il va nous falloir préparer en amont en créant les différentes tables.

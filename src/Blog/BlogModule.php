@@ -14,8 +14,11 @@ class BlogModule extends Module
 {
     
     const DEFINITIONS = __DIR__ . '/config.php';
+
+    const MIGRATIONS = __DIR__ . '/db/migrations';
+
+    const SEEDS = __DIR__ . '/db/seeds';
     
-    private $renderer;
 
     public function __construct(string $prefix, Router $router, RendererInterface $renderer)
     {

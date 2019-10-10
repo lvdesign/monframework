@@ -20,7 +20,7 @@ class Router
     public function __construct()
     {
         $this->router = new FastRouteRouter();
-        // implemenation de ce router
+        // implemetation de ce router
     }
 
   
