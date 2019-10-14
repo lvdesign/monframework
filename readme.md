@@ -57,6 +57,8 @@ php composer.phar require http-interop/response-sender
 ./vendor/bin/phpunit tests/Framework/RendererTest.php --colors
 ./vendor/bin/phpunit tests/Framework/Renderer/PHPRendererTest.php --colors
 
+ ./vendor/bin/phpunit Tests/Blog/Actions/BlogActionsTest.php --colors
+
 ### les deux en meme temps phpcs et php unit
 
  ./vendor/bin/phpcs; ./vendor/bin/phpunit

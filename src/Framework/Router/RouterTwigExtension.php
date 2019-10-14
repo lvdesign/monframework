@@ -22,7 +22,7 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('path', 'pathFor'),
+            new \Twig\TwigFunction('path', [$this, 'pathFor']),
         ];
     }
 

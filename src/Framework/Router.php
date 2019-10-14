@@ -41,9 +41,9 @@ class Router
     /**
      * match
      *
-     * @param  mixed $request
+     * @param  ServerRequestInterface $request
      *
-     * @return Route
+     * @return Route|null
      */
     public function match(ServerRequestInterface $request): ?Route
     {
@@ -59,14 +59,7 @@ class Router
     }
 
 
-    /**
-     * generateUri
-     *
-     * @param  mixed $name
-     * @param  mixed $params
-     *
-     * @return string
-     */
+    
     public function generateUri(string $name, array $params): ?string
     {
         return $this->router->generateUri($name, $params);

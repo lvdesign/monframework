@@ -26,8 +26,8 @@ class App
     /**
      * __construct
      *
-     * @param  mixed $container
-     * @param  mixed $modules
+     * @param  ContainerInterface $container
+     * @param  string[] $modules
      *
      * @return void
      */
@@ -52,7 +52,7 @@ class App
         $router = $this->container->get(Router::class);
         $route = $router->match($request);
         if (is_null($route)) {
-            return new Response(404, [], '<h1>Error 404</h1>');
+            return new Response(404, [], '<h1>Error 404 toto</h1>');
         }
         //
         $params = $route->getParams();

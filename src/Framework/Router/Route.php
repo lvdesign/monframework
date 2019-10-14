@@ -62,7 +62,7 @@ class Route
     /**
      * getParams retirev URL parametaer
      *
-     * @return array string[]
+     * @return string[]
      */
     public function getParams(): array
     {
