@@ -4,6 +4,7 @@ namespace Tests\App\Blog\Actions;
 
 use PDO;
 use Framework\Router;
+use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
 use PHPUnit\Framework\TestCase;
 use App\Blog\Actions\BlogAction;
@@ -37,9 +38,9 @@ class BlogActionsTest extends TestCase
             );
         }
 
-        public function makePost(int $id, string $slug): \stdClass
+        public function makePost(int $id, string $slug): Post
         {
-            $post = new \stdClass();
+            $post = new Post();
             $post->id = $id;
             $post->slug = $slug;
             return $post;

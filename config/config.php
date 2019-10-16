@@ -1,9 +1,10 @@
 <?php
 
 use Framework\Router;
+use Framework\Twig\TimeExtension;
 use Framework\Renderer\RendererInterface;
-use Framework\Renderer\TwigRendererFactory;
 use Framework\Router\RouterTwigExtension;
+use Framework\Renderer\TwigRendererFactory;
 
 // config generale
 //use function \DI\{autowire,get,factory};
@@ -21,7 +22,10 @@ return [
 
     'views.path' => dirname(__DIR__) . '/views',
     'twig.extensions' => [
-        \DI\get(\Framework\Router\RouterTwigExtension::class)
+        \DI\get(\Framework\Router\RouterTwigExtension::class),
+        \DI\get(\Framework\Twig\PagerFantaExtension::class),
+        \DI\get(\Framework\Twig\TextExtension::class),
+        \DI\get(\Framework\Twig\TimeExtension::class),
     ],
     \Framework\Router::class => \DI\autowire(),
     \Framework\Renderer\RendererInterface::class => \DI\factory(\Framework\Renderer\TwigRendererFactory::class),

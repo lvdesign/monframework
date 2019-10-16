@@ -5,13 +5,41 @@
 
 {% block body %}
 <h1> Bienvenue sur le blog  Twig</h1>
+<div class="row">
+    {% for row in posts | batch(3) %}
+<div class="card-deck">
+     {% for post in row %}
 
-<ul>
-    {% for post in posts %}
-        <li><a href="{{ path('blog.show', {slug: post.slug, id: post.id}) }}">
-            {{post.name}}</a>
-        </li>
+     <div class="card">
 
+        <div class="card-header">
+            <h2>
+                <a href="{{ path('blog.show', {slug: post.slug, id: post.id}) }}">
+                    {{post.name}}
+                </a>
+            </h2>
+            <p class="text-muted">{{ post.created_at | ago  }}</p>
+        </div>
+
+        <div class="card-block">
+            <p class="card-text">
+             {{post.content | excerpt | nl2br }}
+            </p>
+        </div>
+
+        <div class="card-footer">
+            <a href="{{ path('blog.show', {slug: post.slug, id: post.id}) }}" class="btn btn-primary">
+             Voir Article
+            </a>
+        </div>
+
+     </div>
     {% endfor %}
-</ul>
+</div>
+{% endfor %}   
+
+</div>
+
+{{ paginate(posts, 'blog.index') }}
+
 {% endblock body %}

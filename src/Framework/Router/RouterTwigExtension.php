@@ -2,6 +2,7 @@
 namespace Framework\Router;
 
 use Framework\Router;
+use Twig\Extensions\TextExtension;
 
 class RouterTwigExtension extends \Twig\Extension\AbstractExtension
 {

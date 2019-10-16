@@ -59,6 +59,11 @@ php composer.phar require http-interop/response-sender
 
  ./vendor/bin/phpunit Tests/Blog/Actions/BlogActionsTest.php --colors
 
+ ./vendor/bin/phpunit tests/Framework/RouterTest.php --colors
+
+ ./vendor/bin/phpunit tests/Framework/Twig/TextExtensionTest.php --colors
+  ./vendor/bin/phpunit tests/Framework/Twig/TimeExtensionTest.php --colors
+
 ### les deux en meme temps phpcs et php unit
 
  ./vendor/bin/phpcs; ./vendor/bin/phpunit
@@ -112,6 +117,17 @@ php composer.phar require --dev fzaninotto/faker
 
 
 
+## pagination
+
+- https://github.com/whiteoctober/Pagerfanta
+
+php composer.phar require pagerfanta/pagerfanta
+
+## bootsrap 4
+php composer.phar require twbs/bootstrap:4.0.0
+
+
+
 # Etapes
 
 - Structure du projet
@@ -135,3 +151,12 @@ Comme nous l'avons vu lors de la mise en place de Twig, certaines classes ont de
 
 - Les migrations
 Pour gérer notre système de blog, il va nous falloir sauvegarder les articles dans une base de données. On utilisera pour cela une base de données MySQL qu'il va nous falloir préparer en amont en créant les différentes tables.
+
+- Récupération des articles
+Maintenant que nos tables sont prêtes, nous allons mettre en place les classes qui nous permettrons d'intéragir avec ces-dernières. On séparera ici les choses en 2 classes :
+
+La class PostTable sera chargée de faire les requêtes et de récupérer les enregistrements.
+Tandis que la class Post permettra de représenter un enregistrement.
+
+- Pagination
+Sur la page d'accueil, mais aussi dans la partie administration, on sera amené à paginer nos articles. On se basera sur la librairie PagerFanta afin de créer un système de pagination compatible avec ce qui a déjà été mis en place et on utilisera les extensions twig pour se créer une méthode simple pour les vues.
