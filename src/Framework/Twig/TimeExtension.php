@@ -6,6 +6,7 @@ use Twig\TwigFilter;
 class TimeExtension extends \Twig\Extension\AbstractExtension
 {
 
+
     /**
      * @return Twig\TwigFilter[]
      */
@@ -16,10 +17,12 @@ class TimeExtension extends \Twig\Extension\AbstractExtension
         ];
     }
 
+
+
     public function ago(\DateTime $date, string $format = 'd/m/Y H:i')
     {
         return '<span class="timeago" datetime="' . $date->format(\DateTime::ISO8601) . '">' .
-            $date->format($format) .
-            '</span>';
+        $date->format($format) .
+        '</span>';
     }
 }

@@ -62,7 +62,10 @@ php composer.phar require http-interop/response-sender
  ./vendor/bin/phpunit tests/Framework/RouterTest.php --colors
 
  ./vendor/bin/phpunit tests/Framework/Twig/TextExtensionTest.php --colors
-  ./vendor/bin/phpunit tests/Framework/Twig/TimeExtensionTest.php --colors
+
+./vendor/bin/phpunit tests/Framework/Twig/TimeExtensionTest.php --colors
+
+./vendor/bin/phpunit tests/Blog/Table/PostTableTest.php --colors
 
 ### les deux en meme temps phpcs et php unit
 
@@ -126,6 +129,11 @@ php composer.phar require pagerfanta/pagerfanta
 ## bootsrap 4
 php composer.phar require twbs/bootstrap:4.0.0
 
+## timeago js
+- https://timeago.org/
+
+cdnjs.cloudflare.com
+timeago().render(document.querySelectorAll('.need_to_be_rendered'));
 
 
 # Etapes
