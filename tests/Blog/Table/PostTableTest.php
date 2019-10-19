@@ -36,4 +36,41 @@ class PostTableTest extends DataBaseTestCase
         $post = $this->postTable->find(10000);
         $this->assertNull($post);
     }
+
+    public function testUpdate()
+    {
+        $this->seedDatabase();
+        
+        $this->postTable->update(1, ['name' => 'Salut', 'slug' => 'demo']);
+        $post = $this->postTable->find(1);
+
+        $this->assertEquals('Salut', $post->name);
+        $this->assertEquals('demo', $post->slug);
+
+    }
+
+    public function testInsert()
+    {
+        //$this->seedDatabase();
+        $this->postTable->insert( ['name' => 'Salut', 'slug' => 'demo']);
+        $post = $this->postTable->find(1);
+        $this->assertEquals('Salut', $post->name);
+        $this->assertEquals('demo', $post->slug);
+    }
+
+    public function testDelete()
+    {
+        $this->postTable->insert( ['name' => 'Salut', 'slug' => 'demo']);
+        $this->postTable->insert( ['name' => 'Salut', 'slug' => 'demo']);
+        $count = $this->pdo->query('SELECT COUNT(id) FROM posts ')->fetchColumn();
+        $this->assertEquals(2, (int)$count);
+
+        $this->postTable->delete($this->pdo->lastInsertId());
+        $count = $this->pdo->query('SELECT COUNT(id) FROM posts ')->fetchColumn();
+        $this->assertEquals(1, (int)$count);
+        
+
+    }
+
+
 }

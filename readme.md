@@ -67,6 +67,8 @@ php composer.phar require http-interop/response-sender
 
 ./vendor/bin/phpunit tests/Blog/Table/PostTableTest.php --colors
 
+./vendor/bin/phpunit tests/Blog/Table/PostTableTest.php --colors
+
 ### les deux en meme temps phpcs et php unit
 
  ./vendor/bin/phpcs; ./vendor/bin/phpunit
@@ -168,3 +170,9 @@ Tandis que la class Post permettra de représenter un enregistrement.
 
 - Pagination
 Sur la page d'accueil, mais aussi dans la partie administration, on sera amené à paginer nos articles. On se basera sur la librairie PagerFanta afin de créer un système de pagination compatible avec ce qui a déjà été mis en place et on utilisera les extensions twig pour se créer une méthode simple pour les vues.
+
+- Tester la base de données
+Tout au long de cette formation on s'efforce de tester le code que l'on écrit. En revanche comment faire pour tester les requêtes SQL que l'on écrit ?
+
+- Administration du blog
+Dans ce chapitre nous allons mettre en place la partie administration du blog avec la gestion de la création, l'édition et la suppression d'articles.

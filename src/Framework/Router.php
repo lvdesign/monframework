@@ -33,9 +33,61 @@ class Router
      *
      * @return void
      */
-    public function get(string $path, $callable, string $name)
+    public function get(string $path, $callable, ?string $name = null)
     {
         $this->router->addRoute(new ZendRoute($path, $callable, ['GET'], $name));
+    }
+
+    /**
+     * post
+     *
+     * @param  string $path
+     * @param  string|callable $callable
+     * @param  string $name
+     *
+     * @return void
+     */
+    public function post(string $path, $callable, ?string $name = null)
+    {
+        $this->router->addRoute(new ZendRoute($path, $callable, ['POST'], $name));
+    }
+
+
+       /**
+     * post
+     *
+     * @param  string $path
+     * @param  string|callable $callable
+     * @param  string $name
+     *
+     * @return void
+     */
+    public function delete(string $path, $callable, ?string $name = null)
+    {
+        $this->router->addRoute(new ZendRoute($path, $callable, ['DELETE'], $name));
+    }
+
+
+    /**
+     * crud genere les pages du CRUD
+     *
+     * @param  mixed $prefix
+     * @param  mixed $callable
+     * @param  mixed $prefixName
+     *
+     * @return void
+     */
+    public function crud(string $prefix, $callable, ?string $prefixName)
+    {
+        $this->get("$prefixName", $callable, "$prefixName.index");
+
+        $this->get("$prefixName/new", $callable, "$prefixName.create");
+        $this->post("$prefixName/new", $callable);
+
+        $this->get("$prefixName/{id:\d+}", $callable, "$prefixName.edit");
+        $this->post("$prefixName/{id:\d+}", $callable);
+
+        $this->delete("$prefixName/{id:\d+}", $callable, "$prefixName.delete");
     }
 
     /**
