@@ -5,9 +5,11 @@ use App\Blog\Table\PostTable;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
+use Framework\Session\FlashService;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Framework\Session\SessionInterface;
 
 class AdminBlogAction
 {
@@ -25,14 +27,21 @@ class AdminBlogAction
      * @var PostTable
      */
     private $postTable;
+  
+
 
     use RouterAwareAction;
 
-    public function __construct(RendererInterface $renderer, Router $router, PostTable $postTable)
-    {
-        $this->renderer = $renderer;
-        $this->router = $router;
-        $this->postTable = $postTable;
+    public function __construct(
+        RendererInterface $renderer,
+        Router $router,
+        PostTable $postTable,
+        FlashService $flash
+    ) {
+                $this->renderer = $renderer;
+                $this->router = $router;
+                $this->postTable = $postTable;
+                $this->flash = $flash;
     }
 
     public function __invoke(Request $request)
@@ -70,7 +79,7 @@ class AdminBlogAction
     /**
      * edit un article
      *
-     * @param  mixed $request
+     * @param Request $request
      *
      * @return ResponseInterface|string
      */
@@ -83,6 +92,7 @@ class AdminBlogAction
             $params['updated_at'] = date('Y-m-d H:i:s');
            // var_dump($params);
             $this->postTable->update($item->id, $params);
+            $this->flash->success('Article modifie');
            
             return $this->redirect('blog.admin.index');
         }
@@ -90,6 +100,11 @@ class AdminBlogAction
     }
 
 
+      /**
+     * Crée un nouvel article
+     * @param Request $request
+     * @return ResponseInterface|string
+     */
     public function create(Request $request)
     {
         if ($request->getMethod() === 'POST') {
@@ -98,6 +113,8 @@ class AdminBlogAction
                'updated_at' => date('Y-m-d H:i:s'),
                'created_at' => date('Y-m-d H:i:s'),
             ]);
+            $this->flash->success('Article cree');
+
            // var_dump($params);
             $this->postTable->insert($params);
             return $this->redirect('blog.admin.index');

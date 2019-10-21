@@ -60,7 +60,7 @@ class App
         $router = $this->container->get(Router::class);
         $route = $router->match($request);
         if (is_null($route)) {
-            return new Response(404, [], '<h1>Error 404 toto</h1>');
+            return new Response(404, [], '<h1>Error 404 toto de Twig</h1>');
         }
         //
         $params = $route->getParams();

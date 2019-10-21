@@ -70,24 +70,27 @@ class Router
 
     /**
      * crud genere les pages du CRUD
+     * for example:
+     * link : admin/posts -> $prefixPath;
+     * page:  admin.posts.index: $prefixName.index
      *
-     * @param  mixed $prefix
-     * @param  mixed $callable
-     * @param  mixed $prefixName
+     * @param  string $prefixPath  for example: admin/posts
+     * @param  $callable
+     * @param  string $prefixName
      *
      * @return void
      */
-    public function crud(string $prefix, $callable, ?string $prefixName)
+    public function crud(string $prefixPath, $callable, ?string $prefixName)
     {
-        $this->get("$prefixName", $callable, "$prefixName.index");
+        $this->get("$prefixPath", $callable, "$prefixName.index");
 
-        $this->get("$prefixName/new", $callable, "$prefixName.create");
-        $this->post("$prefixName/new", $callable);
+        $this->get("$prefixPath/new", $callable, "$prefixName.create");
+        $this->post("$prefixPath/new", $callable);
 
-        $this->get("$prefixName/{id:\d+}", $callable, "$prefixName.edit");
-        $this->post("$prefixName/{id:\d+}", $callable);
+        $this->get("$prefixPath/{id:\d+}", $callable, "$prefixName.edit");
+        $this->post("$prefixPath/{id:\d+}", $callable);
 
-        $this->delete("$prefixName/{id:\d+}", $callable, "$prefixName.delete");
+        $this->delete("$prefixPath/{id:\d+}", $callable, "$prefixName.delete");
     }
 
     /**

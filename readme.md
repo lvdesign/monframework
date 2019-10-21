@@ -52,7 +52,7 @@ php composer.phar require http-interop/response-sender
 
 ### code php unit
 
-- avec xml commande, exemples : 
+- avec xml commande, exemples 
 
 ./vendor/bin/phpunit tests/Framework/RendererTest.php --colors
 ./vendor/bin/phpunit tests/Framework/Renderer/PHPRendererTest.php --colors
@@ -61,13 +61,16 @@ php composer.phar require http-interop/response-sender
 
  ./vendor/bin/phpunit tests/Framework/RouterTest.php --colors
 
- ./vendor/bin/phpunit tests/Framework/Twig/TextExtensionTest.php --colors
-
+- Twig extension
+./vendor/bin/phpunit tests/Framework/Twig/TextExtensionTest.php --colors
 ./vendor/bin/phpunit tests/Framework/Twig/TimeExtensionTest.php --colors
 
 ./vendor/bin/phpunit tests/Blog/Table/PostTableTest.php --colors
 
-./vendor/bin/phpunit tests/Blog/Table/PostTableTest.php --colors
+- flash messages
+./vendor/bin/phpunit tests/Framework/Session/FlashServiceTest.php --colors
+
+
 
 ### les deux en meme temps phpcs et php unit
 
@@ -176,3 +179,6 @@ Tout au long de cette formation on s'efforce de tester le code que l'on écrit. 
 
 - Administration du blog
 Dans ce chapitre nous allons mettre en place la partie administration du blog avec la gestion de la création, l'édition et la suppression d'articles.
+
+- Messages flash
+Lorsqu'un article est modifié, ou supprimé l'utilisateur est redirigé vers le listing d'articles. En revanche, il faut confirmer l'action auprès de l'utilisateur en lui affichant un message.

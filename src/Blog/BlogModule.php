@@ -26,6 +26,8 @@ class BlogModule extends Module
     public function __construct(ContainerInterface $container)
     {
         // blog
+        $blogPrefix = $container->get('blog.prefix');
+
         $container->get(RendererInterface::class)->addPath('blog', __DIR__ . '/views');
         $router = $container->get(Router::class);
         $router->get($container->get('blog.prefix'), BlogAction::class, 'blog.index');
@@ -34,7 +36,6 @@ class BlogModule extends Module
         // admin
         if ($container->has('admin.prefix')) {
             $prefix = $container->get('admin.prefix');
-
             $router->crud("$prefix/posts", AdminBlogAction::class, 'blog.admin');
         }
     }

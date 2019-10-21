@@ -11,7 +11,7 @@ use Framework\Renderer\TwigRendererFactory;
 
 // use function DI\create as object;
 // http://php-di.org/doc/migration/6.0.html#diobject
-// DI\autowire()  ou create
+// DI\autowire()  ou create()
 
 return [
 
@@ -26,7 +26,9 @@ return [
         \DI\get(\Framework\Twig\PagerFantaExtension::class),
         \DI\get(\Framework\Twig\TextExtension::class),
         \DI\get(\Framework\Twig\TimeExtension::class),
+        \DI\get(\Framework\Twig\FlashExtension::class),
     ],
+   \Framework\Session\SessionInterface::class => \DI\create(\Framework\Session\PHPSession::class), 
     \Framework\Router::class => \DI\autowire(),
     \Framework\Renderer\RendererInterface::class => \DI\factory(\Framework\Renderer\TwigRendererFactory::class),
 
