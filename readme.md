@@ -65,12 +65,17 @@ php composer.phar require http-interop/response-sender
 ./vendor/bin/phpunit tests/Framework/Twig/TextExtensionTest.php --colors
 ./vendor/bin/phpunit tests/Framework/Twig/TimeExtensionTest.php --colors
 
+./vendor/bin/phpunit tests/Framework/Twig/FormExtensionTest.php --colors
+
 ./vendor/bin/phpunit tests/Blog/Table/PostTableTest.php --colors
 
 - flash messages
 ./vendor/bin/phpunit tests/Framework/Session/FlashServiceTest.php --colors
 
 ./vendor/bin/phpunit tests/Framework/ValidatorTest.php --colors
+
+
+
 
 ### les deux en meme temps phpcs et php unit
 
@@ -140,6 +145,9 @@ php composer.phar require twbs/bootstrap:4.0.0
 cdnjs.cloudflare.com
 timeago().render(document.querySelectorAll('.need_to_be_rendered'));
 
+
+## flatpickr dateTime 
+- https://cdnjs.com/libraries/flatpickr
 
 # Etapes
 

@@ -85,8 +85,6 @@ class Validator
     }
 
 
-    
-
  
     /**
      * addError
@@ -141,7 +139,8 @@ class Validator
     {
         $value = $this->getValue($key);
       
-        $pattern = '/^([a-z0-9]+-?)+$/';
+        // $pattern = '/^([a-z0-9]+-?)+$/';
+        $pattern = '/^[a-z0-9]+(-[a-z0-9]+)*$/';
 
         if (!is_null($value) && !preg_match($pattern, $this->params[$key])) {
             $this->addError($key, 'slug');

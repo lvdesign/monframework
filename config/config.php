@@ -27,6 +27,8 @@ return [
         \DI\get(\Framework\Twig\TextExtension::class),
         \DI\get(\Framework\Twig\TimeExtension::class),
         \DI\get(\Framework\Twig\FlashExtension::class),
+        \DI\get(\Framework\Twig\FormExtension::class),
+        
     ],
    \Framework\Session\SessionInterface::class => \DI\create(\Framework\Session\PHPSession::class), 
     \Framework\Router::class => \DI\autowire(),
