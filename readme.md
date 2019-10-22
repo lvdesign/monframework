@@ -70,7 +70,7 @@ php composer.phar require http-interop/response-sender
 - flash messages
 ./vendor/bin/phpunit tests/Framework/Session/FlashServiceTest.php --colors
 
-
+./vendor/bin/phpunit tests/Framework/ValidatorTest.php --colors
 
 ### les deux en meme temps phpcs et php unit
 
