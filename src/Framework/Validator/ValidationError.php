@@ -15,21 +15,14 @@ class ValidationError
         'maxLength' => 'Le champs %s doit contenir moins de %d caractères',
         'betweenLength' => 'Le champs %s doit contenir entre %d et %d caractères',
         'datetime' => 'Le champs %s doit être une date valide (%s)',
+        'exists' => 'Le champs %s n\'existe pas dans la table %s',
     ];
-/**
- * @var array
- */
+    /**
+     * @var array
+     */
     private $attributes;
     
-    /**
-     * __constructor
-     *
-     * @param  string $key
-     * @param string $rule
-     * @param  array $attributes
-     *
-     * @return void
-     */
+   
     public function __constructor(string $key, string $rule, array $attributes = [])
     {
         $this->key = $key;

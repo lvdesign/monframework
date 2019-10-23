@@ -30,7 +30,7 @@ return [
         \DI\get(\Framework\Twig\FormExtension::class),
         
     ],
-   \Framework\Session\SessionInterface::class => \DI\create(\Framework\Session\PHPSession::class), 
+    \Framework\Session\SessionInterface::class => \DI\create(\Framework\Session\PHPSession::class), 
     \Framework\Router::class => \DI\autowire(),
     \Framework\Renderer\RendererInterface::class => \DI\factory(\Framework\Renderer\TwigRendererFactory::class),
 

@@ -72,7 +72,12 @@ php composer.phar require http-interop/response-sender
 - flash messages
 ./vendor/bin/phpunit tests/Framework/Session/FlashServiceTest.php --colors
 
+
+- Tables
+./vendor/bin/phpunit tests/Framework/Database/TableTest.php --colors
+
 ./vendor/bin/phpunit tests/Framework/ValidatorTest.php --colors
+
 
 
 
@@ -104,19 +109,29 @@ php composer.phar require zendframework/zend-expressive-fastroute
 php composer.phar require php-di/php-di
 
 
+
+
 ### Installation de Phinx (pour migration BD)
+
+- fichier cree Dans dossier App\ Blog\ db\ migations\
+
 - https://phinx.org/
 
 php composer.phar require robmorgan/phinx --dev
 
 - migration
-vendor/bin/phinx migrate -e development
+./vendor/bin/phinx migrate -e development
 
 - create Table
-vendor/bin/phinx create CreatePostsTable
+./vendor/bin/phinx create CreatePostsTable
+
+./vendor/bin/phinx create AddCategoryTable
+
+- table liaison Post -> Cat
+./vendor/bin/phinx create AddCategoryIdToPost
 
 - migrate Table
-vendor/bin/phinx migrate
+./vendor/bin/phinx migrate
 
 - SEEDS [command](https://book.cakephp.org/3.0/en/phinx/commands.html)
 

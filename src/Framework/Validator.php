@@ -1,6 +1,7 @@
 <?php
 namespace Framework;
 
+use Framework\Database\Table;
 use Framework\Validator\ValidationError;
 
 class Validator
@@ -16,13 +17,7 @@ class Validator
 
     
 
-    /**
-     * __construct
-     *
-     * @param  array $params
-     *
-     * @return void
-     */
+   
     public function __construct(array $params)
     {
         $this->params=$params;
@@ -34,13 +29,12 @@ class Validator
      *
      * @param  string[] ...$keys
      *
-     * @return self
+     * @return Validator
      */
     public function required(string ...$keys): self
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-
             if (is_null($value)) {
                 $this->addError($key, 'required');
             }
@@ -54,7 +48,7 @@ class Validator
      *
      * @param  string[] $keys
      *
-     * @return self
+     * @return Validator
      */
     public function notEmpty(string ...$keys): self
     {
@@ -69,38 +63,17 @@ class Validator
     }
 
 
-    public function isValid(): bool
-    {
-        return empty($this->errors);
-    }
+
 
     /**
-     * getErrors Recupere les erreurs
-     *
-     * @return ValidationError[]
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-
- 
-    /**
-     * addError
+     * length
      *
      * @param  string $key
-     * @param  string $rule
-     * @param  array $attributes
+     * @param  int $min|null
+     * @param  int $max|null
      *
-     * @return void
+     * @return Validator
      */
-    private function addError(string $key, string $rule, array $attributes = []): void
-    {
-        $this->errors[$key] = new ValidationError($key, $rule, $attributes);
-    }
-
-
     public function length(string $key, ?int $min, ?int $max = null): self
     {
         $value = $this->getValue($key);
@@ -133,22 +106,27 @@ class Validator
      *
      * @param  string $key
      *
-     * @return self
+     * @return Validator
      */
     public function slug(string $key): self
     {
         $value = $this->getValue($key);
-      
         // $pattern = '/^([a-z0-9]+-?)+$/';
         $pattern = '/^[a-z0-9]+(-[a-z0-9]+)*$/';
 
-        if (!is_null($value) && !preg_match($pattern, $this->params[$key])) {
+        if (!is_null($value) && !preg_match($pattern, $value)) {
             $this->addError($key, 'slug');
         }
         return $this;
     }
 
-
+    /**
+     * Vérifie qu'une date correspond au format demandé
+     *
+     * @param string $key
+     * @param string $format
+     * @return Validator
+     */
     public function dateTime(string $key, string $format = "Y-m-d H:i:s"): self
     {
         $value = $this->getValue($key);
@@ -161,9 +139,49 @@ class Validator
     }
 
 
+
+    /**
+     * Validation que la clef existe dans la table donnée (pour la liste select Categorie)
+     * attention meme methode dans Table
+     *
+     * @param string $key
+     * @param string $table
+     * @param \PDO $pdo
+     * @return Validator
+     */
+    public function exists(string $key, string $table, \PDO $pdo): self
+    {
+        $value = $this->getValue($key);
+        $statement = $pdo->prepare("SELECT id FROM $table WHERE id = ?");
+        $statement->execute([$value]);
+        if ($statement->fetchColumn() === false) {
+            $this->addError($key, 'exists', [$table]);
+        }
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+
+    public function isValid(): bool
+    {
+        return empty($this->errors);
+    }
+
+    /**
+     * getErrors Recupere les erreurs
+     *
+     * @return ValidationError[]
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
    
     /**
-     * getValue PRIVATE
+     * getValue PRIVATE recupere valeur pour la valider
      *
      * @param  mixed $key
      *
@@ -175,5 +193,20 @@ class Validator
             return $this->params[$key];
         }
         return null;
+    }
+
+ 
+    /**
+     * addError
+     *
+     * @param  string $key
+     * @param  string $rule
+     * @param  array $attributes
+     *
+     *
+     */
+    private function addError(string $key, string $rule, array $attributes = []): void
+    {
+        $this->errors[$key] = new ValidationError($key, $rule, $attributes);
     }
 }

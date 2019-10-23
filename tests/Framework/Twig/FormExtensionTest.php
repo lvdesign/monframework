@@ -36,23 +36,23 @@ class FormExtensionTest extends TestCase
     public function testField()
     {
         $html = $this->formExtension->field([], 'name', 'demo', 'Titre');
-        $this->assertSimilar("
-        <div class=\"form-group\">
-        <label for=\"name\">Titre</label>
-        <input type=\"text\" class=\"form-control\" name=\"name\" id=\"name\" value=\"demo\">
+        $this->assertSimilar('
+        <div class="form-group">
+        <label for="name">Titre</label>
+        <input type="text" class="form-control" name="name" id="name" value="demo">
         </div>
-        ", $html);
+        ', $html);
     }
 
     public function testTextarea()
     {
         $html = $this->formExtension->field([], 'name', 'demo', 'Titre', ['type' => 'textarea']);
-        $this->assertSimilar("
-        <div class=\"form-group\">
-        <label for=\"name\">Titre</label>
-        <textarea class=\"form-control\" name=\"name\" id=\"name\">demo</textarea>
+        $this->assertSimilar('
+        <div class="form-group">
+        <label for="name">Titre</label>
+        <textarea class="form-control" name="name" id="name">demo</textarea>
         </div>
-        ", $html);
+        ', $html);
     }
 
 
@@ -60,13 +60,13 @@ class FormExtensionTest extends TestCase
     {
         $context = ['errors' => ['name' => 'erreur']];
         $html = $this->formExtension->field($context, 'name', 'demo', 'Titre');
-        $this->assertSimilar("
-            <div class=\"form-group has-danger\">
-              <label for=\"name\">Titre</label>
-              <input type=\"text\" class=\"form-control form-control-danger\" name=\"name\" id=\"name\" value=\"demo\">
-              <small class=\"form-text text-muted\">erreur</small>
+        $this->assertSimilar('
+            <div class="form-group has-danger">
+              <label for="name">Titre</label>
+              <input type="text" class="form-control form-control-danger" name="name" id="name" value="demo">
+              <small class="form-text text-muted">erreur</small>
             </div>
-        ", $html);
+        ', $html);
     }
 
     public function testFieldWithClass()
@@ -78,13 +78,38 @@ class FormExtensionTest extends TestCase
             'Titre',
             ['class' => 'demo']
         );
-        $this->assertSimilar("
-        <div class=\"form-group\">
-        <label for=\"name\">Titre</label>
-        <input type=\"text\" class=\"form-control demo \" name=\"name\" id=\"name\" value=\"demo\">
+        $this->assertSimilar('
+        <div class="form-group">
+        <label for="name">Titre</label>
+        <input type="text" class="form-control demo" name="name" id="name" value="demo">
         </div>
-        ", $html);
+        ', $html);
     }
+
+    public function testSelect()
+    {
+        $html = $this->formExtension->field(
+            [], 
+            'name', 
+            '2', 
+            'Titre',
+            ['options' => [1 => 'Demo', '2' => 'Demo2']]
+        );
+
+        $this->assertSimilar('
+        <div class="form-group">
+        <label for="name">Titre</label>
+        <select class="form-control" name="name" id="name">
+            <option value="1">Demo</option>
+            <option value="2" selected>Demo2</option>
+            
+        </select>
+        </div>'
+        , $html);
+
+    }
+
+
 
 
 // ./vendor/bin/phpunit tests/Framework/Twig/FormExtensionTest.php --colors
