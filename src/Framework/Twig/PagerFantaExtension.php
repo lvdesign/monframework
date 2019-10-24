@@ -32,16 +32,26 @@ class PagerFantaExtension extends \Twig\Extension\AbstractExtension
         ];
     }
 
-    public function paginate(Pagerfanta $paginatedResults, string $route, array $queryArgs = []): string
+    /**
+     * paginate Genere la pagination
+     *
+     * @param  PagerFanta $paginatedResults
+     * @param  stringd $route
+     * @param  array $routerParams
+     * @param  array $queryArgs
+     *
+     * @return string
+     */
+    public function paginate(Pagerfanta $paginatedResults, string $route, array $routerParams = [], array $queryArgs = []): string
     {
 
         $view = new TwitterBootstrap4View();
         //$options = array('proximity' => 3);
-            return $html = $view->render($paginatedResults, function (int $page) use ($route, $queryArgs) {
+            return $html = $view->render($paginatedResults, function (int $page) use ($route, $routerParams, $queryArgs) {
                 if ($page > 1) {
                     $queryArgs['p']=  $page; // permet de faire des filtres  tel que "page 1 verte"
                 }
-                return $this->router->generateUri($route, [], $queryArgs);
+                return $this->router->generateUri($route, $routerParams, $queryArgs);
             });
     }
 }

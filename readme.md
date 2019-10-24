@@ -133,11 +133,15 @@ php composer.phar require robmorgan/phinx --dev
 - migrate Table
 ./vendor/bin/phinx migrate
 
+- reconstruire Table
+./vendor/bin/phinx rollback -t 0
+
+
 - SEEDS [command](https://book.cakephp.org/3.0/en/phinx/commands.html)
 
 vendor/bin/phinx seed:create PostSeeder
 
-vendor/bin/phinx seed:run          (// -e development
+./vendor/bin/phinx seed:run          (// -e development
 
 - faker (https://packagist.org/packages/fzaninotto/faker)
 
@@ -205,3 +209,17 @@ Dans ce chapitre nous allons mettre en place la partie administration du blog av
 
 - Messages flash
 Lorsqu'un article est modifié, ou supprimé l'utilisateur est redirigé vers le listing d'articles. En revanche, il faut confirmer l'action auprès de l'utilisateur en lui affichant un message.
+
+- Validation des données
+Il y a une règle importante à respecter lorsque l'on développe un site internet :
+__Never trust user input__
+On ne peut pas laisser l'utilisateur remplir le blog n'importe comment. On va devoir valider les informations entrées dans l'administration à l'aide d'une classe dédiée.
+
+- Simplifier les formulaires
+Les vues de notre administrations restent relativement lourde à gérer avec tout le code HTML à faire pour générer un formulaire. Nous allons simplifier une partie de ce code en utilisant une classe dédiée que l'on créera sous forme d'extension Twig.
+
+- Les catégories
+Lister des articles c'est bien, mais on souhaite pouvoir les classer dans des catégories afin de les organiser plus facilement. Nous allons voir ici comment se reposer sur ce que l'on a déjà fait afin de réduire la quantité de code à écrire.
+
+- Front catégories
+Maintenant que la gestion des catégories est en place nous allons mettre à jour le front afin de permettre aux utilisateurs de n'afficher que les articles appartenant à une certaine catégorie.

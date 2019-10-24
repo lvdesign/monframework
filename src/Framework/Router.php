@@ -5,6 +5,7 @@ use Framework\Router\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Router\Route as ZendRoute;
+use Psr\Http\Server\MiddlewareInterface;
 
 /**
  * Register and match routes

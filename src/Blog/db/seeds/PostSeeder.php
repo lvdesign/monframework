@@ -15,25 +15,46 @@ class PostSeeder extends AbstractSeed
      */
     public function run()
     {
+        // Seeding des categories
         $data=[];
         $faker = \Faker\Factory::create('fr_FR');
 
-        for ($i = 0; $i <100; ++$i) {
+        for ($i = 0; $i < 5; ++$i) {
             $date = $faker->unixTime('now');
             
             $data[]=[
                 'name' => $faker->catchPhrase,
                 'slug' => $faker->slug,
-                'content' => $faker->text(2000),
-                'created_at' => date('Y-m-d H:i:s', $date),
-                'updated_at' => date('Y-m-d H:i:s', $date)
-
             ];
         }
         
-        
-        $this->table('posts')
+        $this->table('categories')
             ->insert($data)
             ->save();
+
+
+            //seeding Articles
+
+            $data=[];
+            // $faker = \Faker\Factory::create('fr_FR');
+    
+        for ($i = 0; $i <100; ++$i) {
+            $date = $faker->unixTime('now');
+                
+            $data[]=[
+                'name' => $faker->catchPhrase,
+                'slug' => $faker->slug,
+                'category_id' => rand(1, 5),
+                'content' => $faker->text(2000),
+                'created_at' => date('Y-m-d H:i:s', $date),
+                'updated_at' => date('Y-m-d H:i:s', $date)
+    
+            ];
+        }
+            
+            
+            $this->table('posts')
+                ->insert($data)
+                ->save();
     }
 }

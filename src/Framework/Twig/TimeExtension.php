@@ -1,6 +1,7 @@
 <?php
 namespace Framework\Twig;
 
+use DateTime;
 use Twig\TwigFilter;
 
 class TimeExtension extends \Twig\Extension\AbstractExtension
