@@ -93,6 +93,16 @@ class TableTest extends TestCase
     }
 
 
+    public function testCount()
+    {
+        $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+        $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("a2")');
+        $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("a1")');
+        $this->assertEquals(3, $this->table->count());
+     
+    }
+
+
 
 
     

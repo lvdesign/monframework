@@ -7,10 +7,10 @@ class ValidationError
     /**
      * @var array
      */
-    private $attributes;  
+    private $attributes;
     /**
      * @var string
-     */  
+     */
     private $key;
     /**
      * @var string

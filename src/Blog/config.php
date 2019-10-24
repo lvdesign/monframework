@@ -1,9 +1,7 @@
 <?php
 
 use App\Blog\BlogModule;
-
-use function \DI\autowire;
-use function \DI\create;
+use function \DI\add;
 use function \DI\get;
 
 // DI\autowire() object() pas pour version 6
@@ -12,4 +10,8 @@ use function \DI\get;
 
 return [
     'blog.prefix' => '/blog',
+    'admin.widgets' => add([
+        get(\App\Blog\BlogWidget::class)
+
+    ])
 ];

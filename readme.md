@@ -223,3 +223,6 @@ Lister des articles c'est bien, mais on souhaite pouvoir les classer dans des ca
 
 - Front catégories
 Maintenant que la gestion des catégories est en place nous allons mettre à jour le front afin de permettre aux utilisateurs de n'afficher que les articles appartenant à une certaine catégorie.
+
+- Dashboard d'administration
+La page d'accueil de l'administration devra afficher des informations provenant de divers sources. Nous allons donc mettre en place un système de "widgets" qui permettra à chaque module de venir injecter un bloc HTML sur le dashboard d'administration.
