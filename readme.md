@@ -79,7 +79,8 @@ php composer.phar require http-interop/response-sender
 ./vendor/bin/phpunit tests/Framework/ValidatorTest.php --colors
 
 
-
+- Middleware 
+./vendor/bin/phpunit tests/Framework/Middleware/MethodMiddlewareTest.php  --colors
 
 
 ### les deux en meme temps phpcs et php unit
@@ -137,6 +138,13 @@ php composer.phar require robmorgan/phinx --dev
 ./vendor/bin/phinx rollback -t 0
 
 
+
+
+
+
+
+
+
 - SEEDS [command](https://book.cakephp.org/3.0/en/phinx/commands.html)
 
 vendor/bin/phinx seed:create PostSeeder
@@ -167,6 +175,23 @@ timeago().render(document.querySelectorAll('.need_to_be_rendered'));
 
 ## flatpickr dateTime 
 - https://cdnjs.com/libraries/flatpickr
+
+
+
+
+## Whoops gestions erreur avec ce midleware
+php composer.phar require middlewares/whoops
+
+
+
+
+
+
+
+
+
+
+
 
 # Etapes
 

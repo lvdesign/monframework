@@ -2,10 +2,11 @@
 namespace Framework;
 
 use Framework\Router\Route;
-use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\Route as ZendRoute;
 use Psr\Http\Server\MiddlewareInterface;
+use Zend\Expressive\Router\FastRouteRouter;
+use Framework\Middleware\CallableMiddleware;
+use Psr\Http\Message\ServerRequestInterface;
+use Zend\Expressive\Router\Route as ZendRoute;
 
 /**
  * Register and match routes
@@ -18,10 +19,12 @@ class Router
      */
     private $router;
 
-    public function __construct()
+    public function __construct(?string $cache = null)
     {
-        $this->router = new FastRouteRouter();
-        // implemetation de ce router
+        $this->router = new FastRouteRouter(null, null, [
+            FastRouteRouter::CONFIG_CACHE_ENABLED => !is_null($cache),
+            FastRouteRouter::CONFIG_CACHE_FILE    => $cache
+        ]);
     }
 
   
@@ -36,7 +39,7 @@ class Router
      */
     public function get(string $path, $callable, ?string $name = null)
     {
-        $this->router->addRoute(new ZendRoute($path, $callable, ['GET'], $name));
+        $this->router->addRoute(new ZendRoute($path, new CallableMiddleware($callable), ['GET'], $name));
     }
 
     /**
@@ -50,7 +53,7 @@ class Router
      */
     public function post(string $path, $callable, ?string $name = null)
     {
-        $this->router->addRoute(new ZendRoute($path, $callable, ['POST'], $name));
+        $this->router->addRoute(new ZendRoute($path, new CallableMiddleware($callable), ['POST'], $name));
     }
 
 
@@ -65,12 +68,15 @@ class Router
      */
     public function delete(string $path, $callable, ?string $name = null)
     {
-        $this->router->addRoute(new ZendRoute($path, $callable, ['DELETE'], $name));
+        $this->router->addRoute(new ZendRoute($path, new CallableMiddleware($callable), ['DELETE'], $name));
     }
 
 
     /**
      * crud genere les pages du CRUD
+     * Framework\Router, la méthode crud()
+     *   n'a pas besoin de convertir le paramètre callable
+     *   en middleware vu que les méthode get(), post() et delete() s'en chargent.
      * for example:
      * link : admin/posts -> $prefixPath;
      * page:  admin.posts.index: $prefixName.index
@@ -93,6 +99,11 @@ class Router
 
         $this->delete("$prefixPath/{id:\d+}", $callable, "$prefixName.delete");
     }
+    /*
+    Framework\Router, la méthode crud()
+    n'a pas besoin de convertir le paramètre callable
+    en middleware vu que les méthode get(), post() et delete() s'en chargent.
+    */
 
     /**
      * match
@@ -107,7 +118,7 @@ class Router
         if ($result->isSuccess()) {
             return new Route(
                 $result->getMatchedRouteName(),
-                $result->getMatchedMiddleware(),
+                $result->getMatchedRoute()->getMiddleware()->getCallable(),
                 $result->getMatchedParams()
             );
         }

@@ -1,34 +1,40 @@
 <?php
 
+use App\Admin\AdminModule;
+use App\Blog\BlogModule;
+use Framework\Middleware\DispatcherMiddleware;
+use Framework\Middleware\MethodMiddleware;
+use Framework\Middleware\RouterMiddleware;
+use Framework\Middleware\RendererRequestMiddleware;
+use Framework\Middleware\TrailingSlashMiddleware;
+use Framework\Middleware\NotFoundMiddleware;
+use GuzzleHttp\Psr7\ServerRequest;
+use Middlewares\Whoops;
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $modules =  [
-
-    \App\Admin\AdminModule::class,
-    \App\Blog\BlogModule::class,
-    
+    AdminModule::class,
+    BlogModule::class,
 ];
 
 
-// injec Dependences
-$builder = new \DI\ContainerBuilder();
-$builder->addDefinitions(dirname(__DIR__) .'/config/config.php');
-foreach ($modules as $module) {
-    if ($module::DEFINITIONS) {
-        $builder->addDefinitions($module::DEFINITIONS);
-    }
-}
-$builder->addDefinitions(dirname(__DIR__) .'/config.php');
-$container = $builder->build();
-// Permet de overwrite le module
 
-$app = new \Framework\App($container, $modules);
-
+$app = (new \Framework\App(dirname(__DIR__) .'/config/config.php'))
+        ->addModule(\App\Admin\AdminModule::class)
+        ->addModule(\App\Blog\blogModule::class)
+        ->pipe(Whoops::class)
+        ->pipe(TrailingSlashMiddleware::class)
+        ->pipe(MethodMiddleware::class)
+        ->pipe(RendererRequestMiddleware::class)
+        ->pipe(RouterMiddleware::class)
+        ->pipe(DispatcherMiddleware::class)
+        ->pipe(NotFoundMiddleware::class);
 
 // lors de migration eviter de chercher des responses
 
 if (php_sapi_name() !== "cli") {
     // throw new Execption();
-    $response = $app->run(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
+    $response = $app->run(ServerRequest::fromGlobals());
     \Http\Response\send($response);
 }

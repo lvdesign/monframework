@@ -1,97 +1,125 @@
 <?php
-
 namespace Framework;
 
-use GuzzleHttp\Psr7\Response;
+use DI\ContainerBuilder;
+use Doctrine\Common\Cache\ApcuCache;
+use Doctrine\Common\Cache\FilesystemCache;
+use Framework\Middleware\CombinedMiddleware;
+use Framework\Middleware\RoutePrefixedMiddleware;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class App
+class App implements RequestHandlerInterface
 {
+
     /**
-     * list modules
+     * List of modules
      * @var array
      */
-    private $modules= [];
+    private $modules = [];
+    /**
+     * @var string
+     */
+    private $definition;
 
-     /**
-     * ContainerInterface
+    /**
      * @var ContainerInterface
      */
     private $container;
 
-   
+    /**
+     * @var string[]
+     */
+    private $middlewares;
 
     /**
-     * __construct
-     *
-     * @param  ContainerInterface $container
-     * @param  string[] $modules
-     *
-     * @return void
+     * @var int
      */
-    public function __construct(ContainerInterface $container, array $modules = [])
+    private $index = 0;
+
+    public function __construct(string $definition)
     {
-        $this->container = $container;
-        foreach ($modules as $module) {
-            $this->modules[] = $container->get($module);
-        }
+
+        $this->definition = $definition;
     }
+
+    /**
+     * Rajoute un module à l'application
+     *
+     * @param string $module
+     * @return App
+     */
+    public function addModule(string $module): self
+    {
+        $this->modules[] = $module;
+        return $this;
+    }
+
+    /**
+     * Ajoute un middleware
+     *
+     * @param string $middleware
+     * @return App
+     */
+    public function pipe(string $middleware): self
+    {
+        $this->middlewares[] = $middleware;
+        return $this;
+    }
+
+
+
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $this->index++;
+        if ($this->index > 1) {
+            throw new \Exception();
+        }
+        $middleware = new CombinedMiddleware($this->getContainer(), $this->middlewares);
+        return $middleware->process($request, $this);
+    }
+
+
 
 
     public function run(ServerRequestInterface $request): ResponseInterface
     {
-        $uri= $request->getUri()->getPath();
-
-        $parseBody = $request->getParsedBody();
-
-        if (array_key_exists('_method', $parseBody) &&
-            in_array($parseBody['_method'], [ 'DELETE', 'PUT' ])) {
-            $request = $request->withMethod($parseBody['_method']);
+        foreach ($this->modules as $module) {
+            $this->getContainer()->get($module);
         }
-
-        if (!empty($uri) && $uri[-1]==="/") {
-            return (new Response())
-                ->withStatus(301)
-                ->withHeader('Location', substr($uri, 0, -1));
-        }
-
-        $router = $this->container->get(Router::class);
-        $route = $router->match($request);
-        if (is_null($route)) {
-            return new Response(404, [], '<h1>Error 404 toto de Twig</h1>');
-        }
-        //
-        $params = $route->getParams();
-        $request = array_reduce(array_keys($params), function ($request, $key) use ($params) {
-            return  $request->withAttribute($key, $params[$key]);
-        }, $request);
-
-        // Peut etre un callable ou une chaine de caractere
-        $callback = $route->getCallback();
-        if (is_string($callback)) {
-            $callback = $this->container->get($callback);
-        }
-        $response = call_user_func_array($callback, [$request]);
-
-        if (is_string($response)) {
-            return new Response(200, [], $response);
-        } elseif ($response instanceof ResponseInterface) {
-            return $response;
-        } else {
-            throw new \Exception('The response not a string-TOTO');
-        }
+        //return $this->process($request);
+        return $this->handle($request);
     }
 
-
     /**
-     * getContainer
-     *
      * @return ContainerInterface
      */
-    public function getContainer(): ContainerInterface
+    private function getContainer(): ContainerInterface
     {
+        if ($this->container === null) {
+            $builder = new ContainerBuilder();
+            $builder->addDefinitions($this->definition);
+            foreach ($this->modules as $module) {
+                if ($module::DEFINITIONS) {
+                    $builder->addDefinitions($module::DEFINITIONS);
+                }
+            }
+            $this->container = $builder->build();
+        }
         return $this->container;
+    }
+
+    
+    private function getMiddleware()
+    {
+        if (array_key_exists($this->index, $this->middlewares)) {
+            $middleware = $this->container->get($this->middlewares[$this->index]);
+            $this->index++;
+            return $middleware;
+        }
+        return null;
     }
 }
