@@ -2,7 +2,6 @@
 namespace Framework;
 
 use Framework\Router\Route;
-use Psr\Http\Server\MiddlewareInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Framework\Middleware\CallableMiddleware;
 use Psr\Http\Message\ServerRequestInterface;

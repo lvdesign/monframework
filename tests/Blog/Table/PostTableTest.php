@@ -30,12 +30,12 @@ class PostTableTest extends DatabaseTestCase
         $post = $this->postTable->find(1);
         $this->assertInstanceOf(Post::class, $post);
     }
-/* 
+
     public function testFindNotFoundRecord()
     {
         $this->expectException(NoRecordException::class);
         $this->postTable->find(1);
-    } */
+    }
 
     public function testUpdate()
     {

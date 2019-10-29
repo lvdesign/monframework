@@ -1,7 +1,15 @@
 <?php
 
 use Framework\Router;
+use Framework\Session\PHPSession;
+// use Framework\Twig\CsrfExtension;
+use Framework\Twig\FormExtension;
+use Framework\Twig\TextExtension;
 use Framework\Twig\TimeExtension;
+use Framework\Twig\FlashExtension;
+use Framework\Router\RouterFactory;
+use Framework\Session\SessionInterface;
+use Framework\Twig\PagerFantaExtension;
 use Framework\Renderer\RendererInterface;
 use Framework\Router\RouterTwigExtension;
 use Framework\Renderer\TwigRendererFactory;
@@ -14,7 +22,7 @@ use Framework\Renderer\TwigRendererFactory;
 // DI\autowire()  ou create()
 
 return [
-
+    'env' => \DI\env('ENV', 'production'),
     'database.host' => 'localhost:8889',
     'database.username' => 'root',
     'database.password' => 'root',
@@ -22,17 +30,18 @@ return [
 
     'views.path' => dirname(__DIR__) . '/views',
     'twig.extensions' => [
-        \DI\get(\Framework\Router\RouterTwigExtension::class),
-        \DI\get(\Framework\Twig\PagerFantaExtension::class),
-        \DI\get(\Framework\Twig\TextExtension::class),
-        \DI\get(\Framework\Twig\TimeExtension::class),
-        \DI\get(\Framework\Twig\FlashExtension::class),
-        \DI\get(\Framework\Twig\FormExtension::class)
+        \DI\get(RouterTwigExtension::class),
+        \DI\get(PagerFantaExtension::class),
+        \DI\get(TextExtension::class),
+        \DI\get(TimeExtension::class),
+        \DI\get(FlashExtension::class),
+        \DI\get(FormExtension::class),
+        // \DI\get(CsrfExtension::class)
     ],
-    \Framework\Session\SessionInterface::class => \DI\create(\Framework\Session\PHPSession::class), 
-    \Framework\Router::class => \DI\autowire(),
-    \Framework\Renderer\RendererInterface::class => \DI\factory(\Framework\Renderer\TwigRendererFactory::class),
-
+    SessionInterface::class => \DI\create(PHPSession::class),
+    // CsrfMiddleware::class => \DI\autowire()->constructor(\DI\get(SessionInterface::class)),
+    Router::class => \DI\factory(RouterFactory::class),
+    RendererInterface::class => \DI\factory(TwigRendererFactory::class),
     \PDO::class => function (\Psr\Container\ContainerInterface $c) {
         return new PDO(
             'mysql:host=' . $c->get('database.host') . ';dbname=' . $c->get('database.name'),

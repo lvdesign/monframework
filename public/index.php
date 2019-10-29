@@ -1,17 +1,19 @@
 <?php
 
-use App\Admin\AdminModule;
+use Middlewares\Whoops;
 use App\Blog\BlogModule;
-use Framework\Middleware\DispatcherMiddleware;
+use App\Admin\AdminModule;
+use GuzzleHttp\Psr7\ServerRequest;
+// use Framework\Middleware\CsrfMiddleware;
 use Framework\Middleware\MethodMiddleware;
 use Framework\Middleware\RouterMiddleware;
-use Framework\Middleware\RendererRequestMiddleware;
-use Framework\Middleware\TrailingSlashMiddleware;
 use Framework\Middleware\NotFoundMiddleware;
-use GuzzleHttp\Psr7\ServerRequest;
-use Middlewares\Whoops;
+use Framework\Middleware\DispatcherMiddleware;
+use Framework\Middleware\TrailingSlashMiddleware;
+use Framework\Middleware\RendererRequestMiddleware;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+chdir(dirname(__DIR__));
+require 'vendor/autoload.php';
 
 $modules =  [
     AdminModule::class,
@@ -20,13 +22,15 @@ $modules =  [
 
 
 
-$app = (new \Framework\App(dirname(__DIR__) .'/config/config.php'))
+$app = (new \Framework\App('config/config.php'))
         ->addModule(\App\Admin\AdminModule::class)
         ->addModule(\App\Blog\blogModule::class)
         ->pipe(Whoops::class)
         ->pipe(TrailingSlashMiddleware::class)
         ->pipe(MethodMiddleware::class)
+          
         ->pipe(RendererRequestMiddleware::class)
+        
         ->pipe(RouterMiddleware::class)
         ->pipe(DispatcherMiddleware::class)
         ->pipe(NotFoundMiddleware::class);
@@ -38,3 +42,4 @@ if (php_sapi_name() !== "cli") {
     $response = $app->run(ServerRequest::fromGlobals());
     \Http\Response\send($response);
 }
+// ->pipe(CsrfMiddleware::class)

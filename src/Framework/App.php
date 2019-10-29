@@ -97,10 +97,20 @@ class App implements RequestHandlerInterface
     /**
      * @return ContainerInterface
      */
-    private function getContainer(): ContainerInterface
+    public function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
             $builder = new ContainerBuilder();
+            $env = $_ENV['ENV'] ?? 'production';
+            if ($env ==='production') {
+                // http://php-di.org/doc/performances.html
+                $builder->enableCompilation('tmp');
+              //$builder->enableCompilation(__DIR__ . '/var/cache');
+             //$builder->enableDefinitionCache();
+
+                //$builder->setDefinitionCache(new FilesystemCache('tmp/di'));
+                //$builder->writeProxiesToFile(true, 'tmp/proxies');
+            }
             $builder->addDefinitions($this->definition);
             foreach ($this->modules as $module) {
                 if ($module::DEFINITIONS) {

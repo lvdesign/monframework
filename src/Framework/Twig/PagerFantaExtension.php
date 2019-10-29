@@ -42,16 +42,23 @@ class PagerFantaExtension extends \Twig\Extension\AbstractExtension
      *
      * @return string
      */
-    public function paginate(Pagerfanta $paginatedResults, string $route, array $routerParams = [], array $queryArgs = []): string
-    {
+    public function paginate(
+        Pagerfanta $paginatedResults,
+        string $route,
+        array $routerParams = [],
+        array $queryArgs = []
+    ): string {
 
         $view = new TwitterBootstrap4View();
         //$options = array('proximity' => 3);
-            return $html = $view->render($paginatedResults, function (int $page) use ($route, $routerParams, $queryArgs) {
-                if ($page > 1) {
-                    $queryArgs['p']=  $page; // permet de faire des filtres  tel que "page 1 verte"
+            return $html = $view->render(
+                $paginatedResults,
+                function (int $page) use ($route, $routerParams, $queryArgs) {
+                    if ($page > 1) {
+                        $queryArgs['p']=  $page; // permet de faire des filtres  tel que "page 1 verte"
+                    }
+                    return $this->router->generateUri($route, $routerParams, $queryArgs);
                 }
-                return $this->router->generateUri($route, $routerParams, $queryArgs);
-            });
+            );
     }
 }

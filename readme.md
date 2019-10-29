@@ -15,8 +15,12 @@ php composer.phar init
 - recharger Composer apres modif/ajout ds Composer
 php composer.phar dump-autoload
 
+- mise a jour
+php composer.phar update
 
 ### Server
+
+ENV=dev php -S localhost:8000 -d display_errors=1 -t public/
 
 php -S localhost:8000 -d display_errors=1 -t public/
 
@@ -81,6 +85,8 @@ php composer.phar require http-interop/response-sender
 
 - Middleware 
 ./vendor/bin/phpunit tests/Framework/Middleware/MethodMiddlewareTest.php  --colors
+
+./vendor/bin/phpunit tests/Framework/Middleware/CsrfMiddlewareTest.php  --colors
 
 
 ### les deux en meme temps phpcs et php unit
@@ -251,3 +257,9 @@ Maintenant que la gestion des catégories est en place nous allons mettre à jou
 
 - Dashboard d'administration
 La page d'accueil de l'administration devra afficher des informations provenant de divers sources. Nous allons donc mettre en place un système de "widgets" qui permettra à chaque module de venir injecter un bloc HTML sur le dashboard d'administration.
+
+-Tout middleware !
+Nous allons nettoyer une partie du code de notre application en séparant la logique dans des middlewares réutilisables. Et Update PSR15.
+
+-Faille CSRF
+Nous allons dans ce chapitre nous prémunir contre les failles CSRF. CSRF, pour Cross-Site Request Forgery consiste à faire éxécuter une requête HTTP falsifiée à un utilisateur afin de le rediriger vers une action interne au site.

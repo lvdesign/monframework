@@ -32,14 +32,14 @@ class DatabaseTestCase extends TestCase
     }
 
 
-    public function migrateDatabase($pdo)
+    public function migrateDatabase(PDO $pdo)
     {
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
         $this->getManager($pdo)->migrate('test');
        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }
 
-    public function seedDatabase($pdo)
+    public function seedDatabase(PDO $pdo)
     {
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
         $this->getManager($pdo)->migrate('test');
