@@ -34,7 +34,7 @@ class PostTableTest extends DatabaseTestCase
     public function testFindNotFoundRecord()
     {
         $this->expectException(NoRecordException::class);
-        $this->postTable->find(1);
+        $this->postTable->find(1000000);
     }
 
     public function testUpdate()

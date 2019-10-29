@@ -275,3 +275,7 @@ Et les performances dans tout ça ? Est-ce qu'à force de découper en plein de 
 
 - Créons un Query Builder
 Créer les requêtes sous forme de simple chaine de caractère peut suffir pour un petit projet. En revanche, lorsque le projet grandit, concevoir nos requête sous forme d'objet peut nous permettre de les composer et les réutiliser. Nous verrons dans ce chapitre comment la création d'un QueryBuilder peut simplifier le travail.
+
+
+- Hydrater les entités
+Lorsque l'on récupère les données nous allons chercher à les représenter sous forme d'objet pour mieux nous organiser. PDO permet déjà de faire cela avec le mode FETCH_CLASS. En revanche, l'hydratation se fait de manière un peu particulière car PDO va instancier l'objet, le remplir avec les champs issus de la base de données puis appeler le constructeur. Nous souhaitons utiliser une méthode d'hydratation plus classique.

@@ -20,7 +20,7 @@ class DatabaseTestCase extends TestCase
         ]);
     }
 
-    public function getManager(PDO $PDO)
+    public function getManager(PDO $pdo)
     {
         $configArray = require('phinx.php');
         $configArray['environments']['test'] = [
