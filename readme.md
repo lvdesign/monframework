@@ -73,7 +73,7 @@ php composer.phar require http-interop/response-sender
 
 ./vendor/bin/phpunit tests/Blog/Table/PostTableTest.php --colors
 
-- flash messages
+- Flash messages
 ./vendor/bin/phpunit tests/Framework/Session/FlashServiceTest.php --colors
 
 
@@ -87,6 +87,12 @@ php composer.phar require http-interop/response-sender
 ./vendor/bin/phpunit tests/Framework/Middleware/MethodMiddlewareTest.php  --colors
 
 ./vendor/bin/phpunit tests/Framework/Middleware/CsrfMiddlewareTest.php  --colors
+
+- Query
+./vendor/bin/phpunit tests/Framework/Database/QueryTest.php  --colors
+
+
+
 
 
 ### les deux en meme temps phpcs et php unit
@@ -261,5 +267,11 @@ La page d'accueil de l'administration devra afficher des informations provenant 
 -Tout middleware !
 Nous allons nettoyer une partie du code de notre application en séparant la logique dans des middlewares réutilisables. Et Update PSR15.
 
--Faille CSRF
+-Faille CSRF (erreur Session)
 Nous allons dans ce chapitre nous prémunir contre les failles CSRF. CSRF, pour Cross-Site Request Forgery consiste à faire éxécuter une requête HTTP falsifiée à un utilisateur afin de le rediriger vers une action interne au site.
+
+-Et les performances ?
+Et les performances dans tout ça ? Est-ce qu'à force de découper en plein de classe on n'a pas rendu notre site "lent" ? Dans ce chapitre nous allons voir comment optimiser notre code, mais aussi la configuration de PHP afin d'améliorer les performances de notre application.
+
+- Créons un Query Builder
+Créer les requêtes sous forme de simple chaine de caractère peut suffir pour un petit projet. En revanche, lorsque le projet grandit, concevoir nos requête sous forme d'objet peut nous permettre de les composer et les réutiliser. Nous verrons dans ce chapitre comment la création d'un QueryBuilder peut simplifier le travail.

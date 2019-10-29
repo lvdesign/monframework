@@ -17,6 +17,7 @@ class Table
      * @var string
      */
     protected $table;
+    
      /**
      * Nom de l'entité utilisé
      * @var string|null
@@ -33,7 +34,7 @@ class Table
 
     /**
      * Pagine des elements avec pagerfanta/pagerfanta
-     *
+     * @param int $perPage
      * @return Pagerfanta
      */
     public function findPaginated(int $perPage, int $currentPage): Pagerfanta
