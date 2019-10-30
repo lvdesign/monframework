@@ -92,6 +92,8 @@ php composer.phar require http-interop/response-sender
 ./vendor/bin/phpunit tests/Framework/Database/QueryTest.php  --colors
 
 
+- Upload
+./vendor/bin/phpunit tests/Framework/UploadTest.php
 
 
 
@@ -150,7 +152,9 @@ php composer.phar require robmorgan/phinx --dev
 ./vendor/bin/phinx rollback -t 0
 
 
-
+- Creation et ajout ds table
+./vendor/bin/phinx create
+./vendor/bin/phinx migrate
 
 
 
@@ -194,7 +198,9 @@ timeago().render(document.querySelectorAll('.need_to_be_rendered'));
 ## Whoops gestions erreur avec ce midleware
 php composer.phar require middlewares/whoops
 
-
+## Recadrage image  intervention/image
+- https://github.com/Intervention/image
+php composer.phar require intervention/image
 
 
 

@@ -46,6 +46,8 @@ class FormExtension extends \Twig\Extension\AbstractExtension
         // ($error)?$attributes['class'] .= 'invalid':$attributes['class'] .= 'valid';
         if ($type === 'textarea') {
             $input = $this->textarea($value, $attributes);
+        } elseif ($type === 'file') {
+            $input = $this->file($attributes);
         } elseif (array_key_exists('options', $options)) {
             $input = $this->select($value, $options['options'], $attributes);
         } else {
@@ -89,6 +91,12 @@ class FormExtension extends \Twig\Extension\AbstractExtension
         return "<input type=\"text\" " . $this->getHtmlFromArray($attributes) ." value=\"{$value}\">";
     }
 
+
+    private function file($attributes)
+    {
+        return "<input type=\"file\" " . $this->getHtmlFromArray($attributes) . ">";
+    }
+
     /**
      * textarea
      *
@@ -118,6 +126,10 @@ class FormExtension extends \Twig\Extension\AbstractExtension
         return "<select " . $this->getHtmlFromArray($attributes) .">$htmlOptions</select>";
     }
 
+
+
+
+    
 
     /**
      * Transforme un tableau $clef => $valeur en attribut HTML

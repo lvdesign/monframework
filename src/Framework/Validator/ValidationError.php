@@ -8,13 +8,8 @@ class ValidationError
      * @var array
      */
     private $attributes;
-    /**
-     * @var string
-     */
+   
     private $key;
-    /**
-     * @var string
-     */
     private $rule;
     
     private $messages = [
@@ -27,19 +22,10 @@ class ValidationError
         'datetime' => 'Le champs %s doit être une date valide (%s)',
         'exists' => 'Le champs %s n\'existe pas dans la table %s',
         'unique' => 'Le champs %s doit être unique dans la table',
+        'filetype' => 'Le champs %s doit être au format valide (%s)',
+        'uploaded' => 'Vous devez Uploader un fichier.'
     ];
-    
-    
-    
-    /**
-     * __constructor
-     *
-     * @param  string $key
-     * @param  string $rule
-     * @param  array $attributes
-     *
-     * @return void
-     */
+  
     public function __constructor(string $key, string $rule, array $attributes = [])
     {
         $this->key = $key;
@@ -48,12 +34,6 @@ class ValidationError
     }
 
     
-
-    /**
-     * __toString
-     *
-     * @return string
-     */
     public function __toString(): string
     {
         $params = array_merge([$this->messages[$this->rule], $this->key], $this->attributes);
