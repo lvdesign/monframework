@@ -3,6 +3,7 @@ namespace App\Blog\Table;
 
 use App\Blog\Entity\Post;
 use Pagerfanta\Pagerfanta;
+use Framework\Database\Query;
 use Framework\Database\Table;
 use Framework\Database\PaginatedQuery;
 
@@ -15,8 +16,30 @@ class PostTable extends Table
     protected $table = 'posts';
 
 
+    public function findPublic(): Query
+    {
+        $category = new CategoryTable($this->pdo);
+        return $this->makeQuery()
+            ->join($category->getTable() . ' as c', 'c.id = p.category_id')
+            ->select('p.*, c.name as category_name, c.slug as category_slug')
+            ->order('p.created_at DESC');
+    }
+
+ // CategoryShowAction
+    public function findPublicForCategory(int $id): Query
+    {
+        return $this->findPublic()->where("p.category_id = $id");
+    }
+
+
+// PostShowAction
+    public function findWithCategory(int $postId): Post
+    {
+        return $this->findPublic()->where("p.id = $postId")->fetch();
+    }
+
     //front
-    public function findPaginatedPublic(int $perPage, int $currentPage): PagerFanta
+/*     public function findPaginatedPublic(int $perPage, int $currentPage): PagerFanta
     {
         $query = new PaginatedQuery(
             $this->pdo,
@@ -30,11 +53,11 @@ class PostTable extends Table
         return (new Pagerfanta($query))
             ->setMaxPerPage($perPage)
             ->setCurrentPage($currentPage);
-    }
+    } */
 
 
 
-    public function findPaginatedPublicForCategory(int $perPage, int $currentPage, int $categoryId): PagerFanta
+    /* public function findPaginatedPublicForCategory(int $perPage, int $currentPage, int $categoryId): PagerFanta
     {
         $query = new PaginatedQuery(
             $this->pdo,
@@ -51,10 +74,10 @@ class PostTable extends Table
             ->setMaxPerPage($perPage)
             ->setCurrentPage($currentPage);
     }
-
+ */
     
     
-    public function findWithCategory(int $id)
+   /*  public function findWithCategory(int $id)
     {
         return $this->fetchOrFail('
             SELECT p.*, c.name category_name, c.slug category_slug
@@ -73,5 +96,5 @@ class PostTable extends Table
         FROM {$this->table} AS p
         LEFT JOIN categories AS c ON p.category_id = c.id
         ORDER BY created_at DESC";
-    }
+    } */
 }

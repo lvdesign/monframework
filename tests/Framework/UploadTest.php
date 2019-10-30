@@ -25,7 +25,7 @@ class UploadTest extends TestCase
         }
     }
 
-    /* public function testUpload () {
+   public function testUpload () {
         $uploadedFile = $this->getMockBuilder(UploadedFileInterface::class)->getMock();
 
         $uploadedFile->expects($this->any())
@@ -41,7 +41,7 @@ class UploadTest extends TestCase
             ->with($this->equalTo('tests/demo.jpg'));
 
         $this->assertEquals('demo.jpg', $this->upload->upload($uploadedFile));
-    } */
+    } 
 
     public function testDontMoveIfFileNotUploaded () {
         $uploadedFile = $this->getMockBuilder(UploadedFileInterface::class)->getMock();

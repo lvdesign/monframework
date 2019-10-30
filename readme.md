@@ -285,3 +285,10 @@ Créer les requêtes sous forme de simple chaine de caractère peut suffir pour 
 
 - Hydrater les entités
 Lorsque l'on récupère les données nous allons chercher à les représenter sous forme d'objet pour mieux nous organiser. PDO permet déjà de faire cela avec le mode FETCH_CLASS. En revanche, l'hydratation se fait de manière un peu particulière car PDO va instancier l'objet, le remplir avec les champs issus de la base de données puis appeler le constructeur. Nous souhaitons utiliser une méthode d'hydratation plus classique.
+
+- Image à la une
+Pour nos articles nous allons mettre en place un système d'upload d'image afin d'améliorer notre blog. Nous allons concevoir ce système de manière générique afin de pouvoir le réutiliser pour d'autres parties du site.
+
+- Finitions du blog
+
+Dans ce chapitre nous allons finaliser la création du query builder et finir la partie blog en mettant en place un système de publication anticipé et d'article en ligne / hors ligne.
