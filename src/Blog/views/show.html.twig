@@ -6,6 +6,12 @@
 
 <h1>{{ post.name }}</h1>
 
+
+ {% if post.image %}
+    <img src="{{ post.imageUrl }}"  alt="{{ post.name }}" class="imageF"/>
+  {% endif %}
+
+
 <p class="text-muted">
   {% if post.categoryId %}
     <a href="{{ path('blog.category', {slug: post.categorySlug}) }}" title="{{ post.categoryName }}">{{ post.categoryName }}</a>

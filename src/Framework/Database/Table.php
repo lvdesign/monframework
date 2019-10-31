@@ -34,7 +34,7 @@ class Table
         $this->pdo = $pdo;
     }
 
-    /* 
+    /*
      * Pagine des elements avec pagerfanta/pagerfanta
      * @param int $perPage
      * @return Pagerfanta
@@ -51,8 +51,8 @@ class Table
         return (new Pagerfanta($query))
             ->setMaxPerPage($perPage)
             ->setCurrentPage($currentPage);
-    
-    } 
+
+    }
     */
 
     /**
@@ -92,7 +92,7 @@ class Table
         } else {
             $query->setFetchMode(\PDO::FETCH_OBJ);
         }
-       
+
         return $query->fetchAll();
     } */
 
@@ -100,7 +100,7 @@ class Table
     /**
      * @return Query
      */
-    protected function makeQuery(): Query
+    public function makeQuery(): Query
     {
         return (new Query($this->pdo))
             ->from($this->table, $this->table[0])
@@ -111,13 +111,13 @@ class Table
 
 
     /**
-     * findAll
+     * findAll rendu Traversable par IteratorAgregate dans Query
      *
-     * @return QueryResult
+     * @return Query
      */
-    public function findAll(): QueryResult
+    public function findAll(): Query
     {
-        return $this->makeQuery()->fetchAll();
+        return $this->makeQuery();
     }
 
 

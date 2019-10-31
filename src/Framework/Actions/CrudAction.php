@@ -1,12 +1,13 @@
 <?php
 namespace Framework\Actions;
 
-use Framework\Database\Table;
-use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use Framework\Session\FlashService;
 use Framework\Validator;
+use Framework\Database\Table;
+use Framework\Database\Hydrator;
+use Framework\Session\FlashService;
 use Psr\Http\Message\ResponseInterface;
+use Framework\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class CrudAction
@@ -97,7 +98,8 @@ class CrudAction
     public function index(Request $request): string
     {
         $params = $request->getQueryParams();
-        $items = $this->table->findPaginated(12, $params['p'] ?? 1);
+        $items = $this->table->findAll()->paginate(12, $params['p'] ?? 1);
+        //$items = $this->table->findPaginated(12, $params['p'] ?? 1);
 
         return $this->renderer->render($this->viewPath .'/index', compact('items'));
     }
@@ -129,7 +131,7 @@ class CrudAction
             }
            // var_dump($params);
             $errors = $validator->getErrors();
-            $params = $request->getParsedBody();
+            Hydrator::hydrate($request->getParsedBody(), $item);
             $params['id'] = $item->id;
             $item =$params;
         }
@@ -162,7 +164,9 @@ class CrudAction
                 return $this->redirect($this->routePrefix . '.index');
             }
 
-            $item = $request->getParsedBody();  //$params;
+            // $item = $request->getParsedBody();  //$params;
+            Hydrator::hydrate($request->getParsedBody(), $item);
+
             $errors = $validator->getErrors();
            // var_dump($params);
         }

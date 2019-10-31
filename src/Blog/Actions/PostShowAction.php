@@ -40,7 +40,7 @@ class PostShowAction
     }
 
    /**
-     * Affiche un article
+     * Affiche un article avec Post
      *
      * @param Request $request
      * @return ResponseInterface|string

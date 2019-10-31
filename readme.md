@@ -290,5 +290,4 @@ Lorsque l'on récupère les données nous allons chercher à les représenter so
 Pour nos articles nous allons mettre en place un système d'upload d'image afin d'améliorer notre blog. Nous allons concevoir ce système de manière générique afin de pouvoir le réutiliser pour d'autres parties du site.
 
 - Finitions du blog
-
 Dans ce chapitre nous allons finaliser la création du query builder et finir la partie blog en mettant en place un système de publication anticipé et d'article en ligne / hors ligne.

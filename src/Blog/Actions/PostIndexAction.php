@@ -41,7 +41,7 @@ class PostIndexAction
         $this->categoryTable = $categoryTable;
     }
 
-    public function __invoke(Request $request) //findPaginatedPublic(12, $params['p'] ?? 1);
+    public function __invoke(Request $request) //findPaginatedPublic(12, $params['p'] ?? 1); Query
     {
         $params = $request->getQueryParams();
         $posts = $this->postTable->findPublic()->paginate(12, $params['p'] ?? 1);

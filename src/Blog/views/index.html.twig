@@ -27,6 +27,12 @@
                 {% if post.categoryName %}
                   <div class="card-header">{{ post.categoryName }}</div>
                 {% endif %}
+
+                {% if post.image %}
+                  <img src="{{ post.thumb }}"  alt="{{ post.name }}" class="imageF"/>
+                {% endif %}
+
+
                 <div class="card-block">
                   <h4 class="card-title">
                     <a href="{{ path('blog.show', {slug: post.slug, id: post.id}) }}">

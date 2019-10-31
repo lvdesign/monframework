@@ -2,30 +2,22 @@
 
 namespace Framework\Database;
 
-use Framework\Database\NoRecordException;
+use IteratorAggregate;
 use Pagerfanta\Pagerfanta;
+use Framework\Database\NoRecordException;
 
-class Query
+class Query implements \IteratorAggregate
 {
 
     private $select;
-
     private $from;
-
     private $where = [];
-
     private $entity;
-
     private $group;
-
     private $order= [];
-
     private $limit;
-
     private $joins;
-
     private $pdo;
-
     private $params = [];
 
     public function __construct(?\PDO $pdo = null)
@@ -83,7 +75,7 @@ class Query
      *
      * @return self
      */
-    public function order( string $order): self
+    public function order(string $order): self
     {
         $this->order[] = $order;
         return $this;
@@ -99,7 +91,7 @@ class Query
      *
      * @return self
      */
-    public function join( string $table, string $condition,string $type="left" ): self
+    public function join(string $table, string $condition, string $type = "left"): self
     {
         $this->joins[$type][] = [$table, $condition];
         return $this;
@@ -125,7 +117,7 @@ class Query
      */
     public function count(): int
     {
-        $query = clone $this; // evite de muter l'objet
+        $query = clone $this; // evite de muter l'objet pour prochaine Select : on clone
         $table = current($this->from);
         return $query->select("COUNT($table.id)")->execute()->fetchColumn();
     }
@@ -165,12 +157,12 @@ class Query
     {
         $record = $this->execute()->fetch(\PDO::FETCH_ASSOC);
 
-        if($record === false){
+        if ($record === false) {
             return false;
         }
-        if($this->entity){
+        if ($this->entity) {
             return Hydrator::hydrate($record, $this->entity);
-        }        
+        }
         return $record;
     }
 
@@ -183,9 +175,9 @@ class Query
     public function fetchOrFail()
     {
         $record = $this->fetch();
-        if($record === false){
+        if ($record === false) {
             throw new NoRecordException();
-        }          
+        }
         return $record;
     }
 
@@ -238,9 +230,9 @@ class Query
         $parts[] = 'FROM';
         $parts[] = $this->buildFrom();
 
-        if(!empty($this->joins)){
-            foreach( $this->joins as $type => $joins){
-                foreach($joins as [$table, $condition]){
+        if (!empty($this->joins)) {
+            foreach ($this->joins as $type => $joins) {
+                foreach ($joins as [$table, $condition]) {
                     $parts[] = strtoupper($type) . " JOIN $table ON $condition";
                 }
             }
@@ -252,7 +244,7 @@ class Query
 
         if (!empty($this->order)) {
             $parts[] = 'ORDER BY';
-            $parts[] = join( ', ' , $this->order);
+            $parts[] = join(', ', $this->order);
         }
         if ($this->limit) {
             $parts[] = "LIMIT " . $this->limit;
@@ -286,7 +278,7 @@ class Query
     private function execute()
     {
         $query = $this->__toString();
-        if (!empty($this->params )) {
+        if (!empty($this->params)) {
             $statement = $this->pdo->prepare($query);
             $statement->execute($this->params);
             return $statement;
@@ -294,5 +286,9 @@ class Query
         return $this->pdo->query($query);
     }
 
-    
+
+    public function getIterator()
+    {
+        return $this->fetchAll();
+    }
 }

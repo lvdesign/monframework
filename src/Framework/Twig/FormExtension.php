@@ -10,9 +10,9 @@ class FormExtension extends \Twig\Extension\AbstractExtension
     {
         return [
             new \Twig\TwigFunction('field', [$this,'field'], [
-                'is_safe' => ['html'],
+                'is_safe'       => ['html'],
                 'needs_context' => true
-                ]),
+                ])
         ];
     }
 
@@ -48,6 +48,8 @@ class FormExtension extends \Twig\Extension\AbstractExtension
             $input = $this->textarea($value, $attributes);
         } elseif ($type === 'file') {
             $input = $this->file($attributes);
+        } elseif ($type === 'checkbox') {
+            $input = $this->checkbox($valeur, $attributes);
         } elseif (array_key_exists('options', $options)) {
             $input = $this->select($value, $options['options'], $attributes);
         } else {
@@ -92,9 +94,35 @@ class FormExtension extends \Twig\Extension\AbstractExtension
     }
 
 
-    private function file($attributes)
+    /**
+     * file
+     *
+     * @param  array $attributes
+     *
+     * @return string
+     */
+    private function file($attributes): string
     {
         return "<input type=\"file\" " . $this->getHtmlFromArray($attributes) . ">";
+    }
+
+
+
+    /**
+     * checkbox
+     *
+     * @param  null|string $value
+     * @param  array $attributes
+     *
+     * @return string
+     */
+    private function checkbox(?string $value, array $attributes): string
+    {
+        $html= '<input type="hidden" name="' . $attributes['name'].'" value="0"/>';
+        if ($value) {
+            $attributes['checked'] = true;
+        }
+        return $html . "<input type=\"checkbox\" " . $this->getHtmlFromArray($attributes) ." value=\"1\">";
     }
 
     /**

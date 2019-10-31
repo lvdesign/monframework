@@ -19,10 +19,9 @@ class PaginatedQuery implements AdapterInterface
  
     
     
-    public function __construct(Query $query) {
-        
+    public function __construct(Query $query)
+    {
         $this->query = $query;
-     
     }
 
 
@@ -41,7 +40,7 @@ class PaginatedQuery implements AdapterInterface
      */
     public function getSlice($offset, $length): QueryResult
     {
-        $query = clone $this->query;
-        return $query->limit($length,$offset)->fetchAll();
+        $query = clone $this->query; // probleme mutation du select en OPP
+        return $query->limit($length, $offset)->fetchAll();
     }
 }

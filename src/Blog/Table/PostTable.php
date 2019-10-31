@@ -16,13 +16,21 @@ class PostTable extends Table
     protected $table = 'posts';
 
 
-    public function findPublic(): Query
+    public function findAll(): Query
     {
         $category = new CategoryTable($this->pdo);
         return $this->makeQuery()
-            ->join($category->getTable() . ' as c', 'c.id = p.category_id')
-            ->select('p.*, c.name as category_name, c.slug as category_slug')
-            ->order('p.created_at DESC');
+        ->join($category->getTable() . ' as c', 'c.id = p.category_id')
+        ->select('p.*, c.name as category_name, c.slug as category_slug')
+        ->order('p.created_at DESC');
+    }
+
+
+    public function findPublic(): Query
+    {
+        return $this->findAll()
+            ->where('p.published=1')
+            ->where('p.created_at < NOW()'); // date
     }
 
  // CategoryShowAction
@@ -38,14 +46,16 @@ class PostTable extends Table
         return $this->findPublic()->where("p.id = $postId")->fetch();
     }
 
+
+
     //front
 /*     public function findPaginatedPublic(int $perPage, int $currentPage): PagerFanta
     {
         $query = new PaginatedQuery(
             $this->pdo,
             "SELECT p.*, c.name as category_name, c.slug as category_slug
-            FROM posts as p 
-            LEFT JOIN categories as c ON c.id = p.category_id 
+            FROM posts as p
+            LEFT JOIN categories as c ON c.id = p.category_id
             ORDER BY p.created_at DESC",
             "SELECT COUNT(id) FROM {$this->table}",
             $this->entity
@@ -62,8 +72,8 @@ class PostTable extends Table
         $query = new PaginatedQuery(
             $this->pdo,
             "SELECT p.*, c.name as category_name, c.slug as category_slug
-            FROM posts as p 
-            LEFT JOIN categories as c ON c.id = p.category_id 
+            FROM posts as p
+            LEFT JOIN categories as c ON c.id = p.category_id
             WHERE p.category_id = :category
             ORDER BY p.created_at DESC",
             "SELECT COUNT(id) FROM {$this->table}  WHERE category_id = :category",
@@ -92,7 +102,7 @@ class PostTable extends Table
     {
         //return parent::paginationQuery() . " ORDER BY created_at DESC";
 
-        return "SELECT p.id, p.name,c.name category_name 
+        return "SELECT p.id, p.name,c.name category_name
         FROM {$this->table} AS p
         LEFT JOIN categories AS c ON p.category_id = c.id
         ORDER BY created_at DESC";
