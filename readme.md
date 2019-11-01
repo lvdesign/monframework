@@ -157,13 +157,21 @@ php composer.phar require robmorgan/phinx --dev
 ./vendor/bin/phinx migrate
 
 
+- ATTENTION pour eviter cache
+ENV=dev ./vendor/bin/phinx create CreateUsersTable
 
 
+ENV=dev ./vendor/bin/phinx migrate
 
 
 - SEEDS [command](https://book.cakephp.org/3.0/en/phinx/commands.html)
 
 vendor/bin/phinx seed:create PostSeeder
+
+
+ENV=dev vendor/bin/phinx seed:create UserSeeder
+
+ENV=dev vendor/bin/phinx seed:run
 
 ./vendor/bin/phinx seed:run          (// -e development
 
@@ -291,3 +299,7 @@ Pour nos articles nous allons mettre en place un système d'upload d'image afin 
 
 - Finitions du blog
 Dans ce chapitre nous allons finaliser la création du query builder et finir la partie blog en mettant en place un système de publication anticipé et d'article en ligne / hors ligne.
+
+
+- Authentification
+Dans ce chapitre nous allons voir comment protéger notre backoffice en mettant en place un système d'authentification basé sur des utilisateurs en base de données.

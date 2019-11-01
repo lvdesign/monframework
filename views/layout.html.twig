@@ -20,6 +20,21 @@
             <a class="nav-link" href="{{ path('blog.index') }}">Blog</a>
         </li>
     </ul>
+    
+    <div class="nav navbar-nav ">
+    {% if current_user() %}
+        <a class="navbar-brand" href="#" >  Bonjour: {{ current_user().username }}</a>
+        <form class="form-inline" method="post" action="{{ path('auth.logout') }}">
+        {#  {{ csrf_input() }} #}
+        <button class="btn btn-info">Se déconnecter</button>
+        </form>
+
+    {% else %}
+        <div class="nav-item active">
+                <a class="nav-link" href="{{ path('auth.login') }}">LogIn</a>
+        </div>
+    {% endif %}
+    </div>
 </nav>
 
 <div class="container">

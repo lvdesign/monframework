@@ -133,7 +133,7 @@ class Table
      */
     public function findBy(string $field, string $value)
     {
-        return $this->makeQuery()->where("$field =:field")->params(["field" => $value])->fetchOrFail();
+        return $this->makeQuery()->where("$field = :field")->params(["field" => $value])->fetchOrFail();
         //return $this->fetchOrFail("SELECT * FROM  {$this->table} WHERE $field= ? ", [$value]);
     }
 

@@ -15,11 +15,26 @@
 <body>
 
 <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+
+
     <a class="navbar-brand" href="{{ path('admin')}}">Administration</a>
-    <ul class="nav navbar-nav">
+
+
+    <ul class="nav navbar-nav ">
       {{ admin_menu() }}
     </ul>
+
+   <div class="navbar-nav ">
+    <form class="form-inline" method="post" action="{{ path('auth.logout') }}">
+     {#  {{ csrf_input() }} #}
+      <button class="btn btn-info">Se déconnecter</button>
+    </form>
+  </div>
+
+
 </nav>
+
+
 
 <div class="container">
 

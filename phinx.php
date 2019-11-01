@@ -3,13 +3,13 @@ require 'public/index.php';
 
 //gestion des migrations par modules
 $migrations = [];
-foreach ($modules as $module) {
+foreach ($app->getModules() as $module) {
     if ($module::MIGRATIONS) {
         $migrations[] = $module::MIGRATIONS;
     }
 }
 $seeds = [];
-foreach ($modules as $module) {
+foreach ($app->getModules() as $module) {
     if ($module::SEEDS) {
         $seeds[] = $module::SEEDS;
     }
