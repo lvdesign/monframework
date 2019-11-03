@@ -11,6 +11,9 @@ return [
         \DI\get(AuthTwigExtension::class),
         
     ]),
+    Auth\User::class => \DI\Factory( function(Auth $auth){
+        return $auth->getUser(); // permet de bloquer une page
+    })->parameter('auth', \DI\get(AUTH::class)),
     Auth::class => \DI\get(DatabaseAuth::class),
     ForbiddenMiddleware::class => \DI\autowire()->constructorParameter('loginPath', \DI\get('auth.login'))
 ];

@@ -10,6 +10,8 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use \Framework\Auth\User;
+
 class CategoryShowAction
 {
 
@@ -34,7 +36,8 @@ class CategoryShowAction
     public function __construct(
         RendererInterface $renderer,
         PostTable $postTable,
-        CategoryTable $categoryTable
+        CategoryTable $categoryTable,
+        User $user
     ) {
         $this->renderer = $renderer;
         $this->postTable = $postTable;

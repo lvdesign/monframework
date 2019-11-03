@@ -39,7 +39,7 @@ class ForbiddenMiddleware implements \Psr\Http\Server\MiddlewareInterface
             return $handler->handle($request);
         } catch (ForbiddenException $exception) {
             return $this->redirectLogin($request);
-        } catch (\TypeError $error) {
+        } catch (\TypeError $error) { // exemple category non login
             if (strpos($error->getMessage(), \Framework\Auth\User::class) !== false) {
                 return $this->redirectLogin($request);
             }
