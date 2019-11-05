@@ -308,3 +308,5 @@ Dans ce chapitre nous allons voir comment protéger notre backoffice en mettant 
 Dans ce chapitre nous allons améliorer le code coverage
 
 //  No code coverage driver is available
+
+// toto
