@@ -303,3 +303,8 @@ Dans ce chapitre nous allons finaliser la création du query builder et finir la
 
 - Authentification
 Dans ce chapitre nous allons voir comment protéger notre backoffice en mettant en place un système d'authentification basé sur des utilisateurs en base de données.
+
+-Améliorons le code coverage
+Dans ce chapitre nous allons améliorer le code coverage
+
+//  No code coverage driver is available
